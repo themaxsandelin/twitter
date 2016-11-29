@@ -37,7 +37,7 @@ $(window).load(function(){
 				$(".tweetReplyWrapper").prepend(
 					'<div class="statusTweetReply tweetReply">'+
 					'<a href="/'+username+'">'+
-					'<div class="statusReplyImage replyUserImage" style="background:url(/resources/img/users/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
+					'<div class="statusReplyImage replyUserImage" style="background:url(/resources/img/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
 					'</a>'+
 					'<div class="replyContentWrapper">'+
 					'<a href="/'+username+'" class="tweetAuthorHover">'+

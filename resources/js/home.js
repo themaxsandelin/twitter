@@ -110,7 +110,7 @@ $(window).load(function(){
 				$("#"+activeTweet).find(".tweetReplyWrapper").prepend(
 					'<div class="tweetReply">'+
 					'<a href="/'+username+'">'+
-					'<div class="replyUserImage" style="background:url(resources/img/users/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
+					'<div class="replyUserImage" style="background:url(resources/img/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
 					'</a>'+
 					'<div class="replyContentWrapper">'+
 					'<a href="/'+username+'" class="tweetAuthorHover">'+

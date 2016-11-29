@@ -71,7 +71,7 @@ $user = getUserInfo($_SESSION["userID"]);
 					<div class="innerArticle">
 						<div class="createTweetWrapper">
 							<div class="createTweetUserWrapper">
-								<div class="userImage" style="background:url(resources/img/users/<?php print getUserImage($user["id"]); ?>) no-repeat center center; background-size:cover;"></div>
+								<div class="userImage" style="background:url(resources/img/<?php print getUserImage($user["id"]); ?>) no-repeat center center; background-size:cover;"></div>
 							</div>
 							<div class="createTweetContentWrapper">
 								<div class="clickTweet">What's happening?</div>
