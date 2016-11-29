@@ -1,15 +1,18 @@
 <?php
-	require_once("resources/functions/data.php");
-	$session = checkSession();
-	if ($session === false) {
-		header("Location: login");
-		die();
-	}
-	if (getPageName() == "index.php") {
-		header("Location: /");
-		die();
-	}
-	$user = getUserInfo($_SESSION["userID"]);
+
+require_once("resources/functions/data.php");
+
+$session = checkSession();
+if ($session === false) {
+	header("Location: login");
+	die();
+}
+if (getPageName() == "index.php") {
+	header("Location: /");
+	die();
+}
+$user = getUserInfo($_SESSION["userID"]);
+
 ?>
 <html>
 	<head>
@@ -94,11 +97,11 @@
 							</div>
 						</div>
 						<?php
-							$tweets = getHomeTweets($_SESSION["userID"]);
-							$tweetNum = 1;
-							foreach ($tweets as $tweet) {
-								require("resources/sections/tweet.php");
-							}
+						$tweets = getHomeTweets($_SESSION["userID"]);
+						$tweetNum = 1;
+						foreach ($tweets as $tweet) {
+							require("resources/sections/tweet.php");
+						}
 						?>
 						<div class="bottomTweetMessageWrapper">There were no more tweets to load</div>
 					</div>
@@ -108,6 +111,5 @@
 				</article>
 			</div>
 		</section>
-
 	</body>
 </html>

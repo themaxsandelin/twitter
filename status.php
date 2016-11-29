@@ -1,21 +1,24 @@
 <?php
-	require_once("resources/functions/data.php");
-	$session = checkSession();
-	if ($session === false) {
-		header("Location: /login");
-		die();
-	}
-    if (isset($_GET["id"]) === false) {
-        header("Location: /");
-        die();
-    }
-    if (isset($_GET["username"]) === false) {
-        header("Location: /");
-        die();
-    }
-	$user = getUserInfo($_SESSION["userID"]);
-	$tweet = getTweet($_GET["id"]);
-	$author = getUserInfo($tweet["author_id"]);
+
+require_once("resources/functions/data.php");
+
+$session = checkSession();
+if ($session === false) {
+	header("Location: /login");
+	die();
+}
+if (isset($_GET["id"]) === false) {
+	header("Location: /");
+	die();
+}
+if (isset($_GET["username"]) === false) {
+	header("Location: /");
+	die();
+}
+$user = getUserInfo($_SESSION["userID"]);
+$tweet = getTweet($_GET["id"]);
+$author = getUserInfo($tweet["author_id"]);
+
 ?>
 <html>
 	<head>
@@ -23,10 +26,10 @@
 		<?php require("resources/sections/head.php");?>
 		<script src="/resources/js/status.js" type="text/javascript"></script>
 	</head>
-    <body>
-        <?php require("resources/sections/header.php");?>
-        <section id="statusPage">
-            <article id="statusContainer">
+	<body>
+		<?php require("resources/sections/header.php");?>
+		<section id="statusPage">
+			<article id="statusContainer">
 				<div class="statusWrapper" data-activated="false" data-tweet-id="<?php print $tweet["tweet_id"]; ?>" data-author-id="<?php print $tweet["author_id"]; ?>">
 					<div class="statusTweetWrapper">
 						<div class="statusTweetAuthorBar">
@@ -41,22 +44,27 @@
 									<h4><?php print "@".$author["username"]; ?></h4>
 								</a>
 							</div>
-							<?php if ($user["id"] !== $author["id"]) {?>
+							<?php if ($user["id"] !== $author["id"]): ?>
 								<div class="followWrapper">
-									<?php if (isset($user)) {
-										if ($user["username"] == $author["username"]) {?>
+									<?php
+										if (isset($user)):
+										if ($user["username"] == $author["username"]):
+									?>
 										<a href="/settings/account">
 											<div class="button greyButton">Settings</div>
 										</a>
-									<?php } else {?>
-										<?php if (checkFollowing($_SESSION["userID"], $author["id"])) { ?>
+									<?php else: ?>
+										<?php if (checkFollowing($_SESSION["userID"], $author["id"])): ?>
 											<div class="blueButton" id="unfollowUser"></div>
-										<?php } else { ?>
+										<?php else: ?>
 											<div class="blueButton" id="followUser">Follow</div>
-										<?php }?>
-									<?php } }?>
+										<?php endif; ?>
+									<?php
+										endif;
+										endif;
+									?>
 								</div>
-							<?php }?>
+							<?php endif; ?>
 						</div>
 						<div class="statusTweetContentWrapper">
 							<div class="statusTweetContent"><?php print nl2br(formatTweetContent($tweet["content"])); ?></div>
@@ -66,20 +74,20 @@
 										<i class="fa fa-star favouriteIcon"></i>
 									</div>
 								</div>
-								<?php if ($_SESSION["userID"] === $author["id"] || getAdmin($_SESSION["userID"]) === "1") {?>
+								<?php if ($_SESSION["userID"] === $author["id"] || getAdmin($_SESSION["userID"]) === "1"): ?>
 									<div class="toolBarMargin removeTweet ">
 										<i class="fa fa-trash removeIcon"></i>
 									</div>
-								<?php }?>
+								<?php endif; ?>
 							</div>
 						</div>
-						<?php if ($image = getTweetImage($author["id"], $tweet["tweet_id"])) {?>
+						<?php if ($image = getTweetImage($author["id"], $tweet["tweet_id"])): ?>
 							<div class="statusTweetImageWrapper">
 								<div class="shield"></div>
 								<img src="/resources/img/users/<?php print $image; ?>" alt="Status tweet image" class="statusTweetImage">
 							</div>
-						<?php }?>
-						<?php if (getTweetFavouriteNum($tweet["tweet_id"]) > 0) {?>
+						<?php endif; ?>
+						<?php if (getTweetFavouriteNum($tweet["tweet_id"]) > 0): ?>
 							<div class="responceDisplayWrapper">
 								<div class="statCountWrapper">
 									<div class="statCountTitle">Favourites</div>
@@ -88,18 +96,18 @@
 								<div class="favouriteUsersWrapper">
 									<?php
 										$favUsers = getFavouriteUsers($tweet["tweet_id"]);
-										foreach ($favUsers as $favUser) {
+										foreach ($favUsers as $favUser):
 											$favUsername = getUserInfo($favUser["user_id"])["username"];
-											?>
-											<a href="/<?php print $favUsername; ?>">
-												<div class="favouriteUserImageWrapper">
-													<div class="favouriteUserImage" style="background:url(/resources/img/<?php print getUserImage($favUser["user_id"]); ?>) no-repeat center center; background-size:cover;"></div>
-												</div>
-											</a>
-									<?php }?>
+									?>
+										<a href="/<?php print $favUsername; ?>">
+											<div class="favouriteUserImageWrapper">
+												<div class="favouriteUserImage" style="background:url(/resources/img/<?php print getUserImage($favUser["user_id"]); ?>) no-repeat center center; background-size:cover;"></div>
+											</div>
+										</a>
+									<?php endforeach; ?>
 								</div>
 							</div>
-						<?php }?>
+						<?php endif; ?>
 						<div class="tweetDetailTime">
 							<?php print getFullTimeElapsed($tweet["published"]); ?>
 						</div>
@@ -119,35 +127,35 @@
 					<div class="tweetReplyWrapper preventTweetAction">
 						<?php
 							$replies = getAllTweetReplies($tweet["tweet_id"]);
-							foreach ($replies as $reply) {
+							foreach ($replies as $reply):
 								$replyUser = getUserInfo($reply["author_id"]);
 						?>
-						<div class="statusTweetReply tweetReply" data-reply-id="<?php print $reply["tweet_id"]; ?>" >
-							<a href="/<?php print $replyUser["username"];?>">
-								<div class="statusReplyImage replyUserImage" style="background:url(/resources/img/<?php print getUserImage($reply["author_id"]); ?>) no-repeat center center; background-size:cover;"></div>
-							</a>
-							<div class="replyContentWrapper">
-								<a href="/<?php print $replyUser["username"];?>" class="tweetAuthorHover">
-									<div class="tweetAuthor">
-										<?php print $replyUser["name"];?>
-									</div>
-									<div class="authorUsername"><?php print "&nbsp;@" . $replyUser["username"]?></div>
-								</a>
+							<div class="statusTweetReply tweetReply" data-reply-id="<?php print $reply["tweet_id"]; ?>" >
 								<a href="/<?php print $replyUser["username"];?>">
-									<div class="tweetDate"> <?php print calcElapsedTweet($reply["published"]);?></div>
+									<div class="statusReplyImage replyUserImage" style="background:url(/resources/img/<?php print getUserImage($reply["author_id"]); ?>) no-repeat center center; background-size:cover;"></div>
 								</a>
-								<?php if ($_SESSION["userID"] === $replyUser["id"] || getAdmin($_SESSION["userID"]) === "1") {?>
-									<div class="removeReply preventTweetAction">
-										<i class="fa fa-trash removeIcon"></i>
-									</div>
-								<?php }?>
-								<div class="replyText"><?php print nl2br(formatTweetContent($reply["content"]));?></div>
+								<div class="replyContentWrapper">
+									<a href="/<?php print $replyUser["username"];?>" class="tweetAuthorHover">
+										<div class="tweetAuthor">
+											<?php print $replyUser["name"];?>
+										</div>
+										<div class="authorUsername"><?php print "&nbsp;@" . $replyUser["username"]?></div>
+									</a>
+									<a href="/<?php print $replyUser["username"];?>">
+										<div class="tweetDate"> <?php print calcElapsedTweet($reply["published"]);?></div>
+									</a>
+									<?php if ($_SESSION["userID"] === $replyUser["id"] || getAdmin($_SESSION["userID"]) === "1"): ?>
+										<div class="removeReply preventTweetAction">
+											<i class="fa fa-trash removeIcon"></i>
+										</div>
+									<?php endif; ?>
+									<div class="replyText"><?php print nl2br(formatTweetContent($reply["content"]));?></div>
+								</div>
 							</div>
-						</div>
-						<?php }?>
+						<?php endforeach; ?>
 					</div>
 				</div>
-            </article>
-        </section>
-    </body>
+			</article>
+		</section>
+	</body>
 </html>

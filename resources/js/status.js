@@ -1,5 +1,5 @@
 $(window).load(function(){
-	
+
 	var tweetID = $(".statusWrapper").attr("data-tweet-id");
 	var authorID = $(".statusWrapper").attr("data-author-id");
 	var username = $("#heusna").val();
@@ -18,7 +18,7 @@ $(window).load(function(){
 			document.location.reload(true);
 		});
 	}
-	
+
 	function sendReply (reply, user, twid) {
 		var message = "newReply";
 		$.post('/resources/sections/actions.php', {
@@ -36,25 +36,25 @@ $(window).load(function(){
 				reply = reply.replace(/\B#([\w-]+)/gm, '<a href="/search/?s=$1">#$1</a>');
 				$(".tweetReplyWrapper").prepend(
 					'<div class="statusTweetReply tweetReply">'+
-						'<a href="/'+username+'">'+
-							'<div class="statusReplyImage replyUserImage" style="background:url(/resources/img/users/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
-						'</a>'+
-						'<div class="replyContentWrapper">'+
-							'<a href="/'+username+'" class="tweetAuthorHover">'+
-								'<div class="tweetAuthor">'+userName+'</div>'+
-								'<div class="authorUsername">&nbsp;@'+username+'</div>'+
-							'</a>'+
-							'<a href="/'+username+'">'+
-								'<div class="tweetDate"> 0 Sec</div>'+
-							'</a>'+
-							'<div class="tweetText">'+reply+'</div>'+
-						'</div>'+
+					'<a href="/'+username+'">'+
+					'<div class="statusReplyImage replyUserImage" style="background:url(/resources/img/users/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
+					'</a>'+
+					'<div class="replyContentWrapper">'+
+					'<a href="/'+username+'" class="tweetAuthorHover">'+
+					'<div class="tweetAuthor">'+userName+'</div>'+
+					'<div class="authorUsername">&nbsp;@'+username+'</div>'+
+					'</a>'+
+					'<a href="/'+username+'">'+
+					'<div class="tweetDate"> 0 Sec</div>'+
+					'</a>'+
+					'<div class="tweetText">'+reply+'</div>'+
+					'</div>'+
 					'</div>'
 				);
 			}
 		});
 	}
-	
+
 	function addFavourite (tweetID, userID) {
 		var message = "addFavourite";
 		$.post('/resources/sections/actions.php', {
@@ -65,7 +65,7 @@ $(window).load(function(){
 			document.location.reload(true);
 		});
 	}
-	
+
 	function removeFavourite (tweetID, userID) {
 		var message = "removeFavourite";
 		$.post('/resources/sections/actions.php', {
@@ -76,7 +76,7 @@ $(window).load(function(){
 			document.location.reload(true);
 		});
 	}
-	
+
 	function tweetRemoval (code, id) {
 		var message = "removeTweet";
 		$.post('/resources/sections/actions.php', {
@@ -87,7 +87,7 @@ $(window).load(function(){
 			window.location.href="/";
 		});
 	}
-	
+
 	$(document).on("tap", function(event){
 		if (creatingReply === true) {
 			if ($(".replyContent").val() === $(".replyContent").attr("data-original-content") || $(".replyContent").val() === $(".replyContent").attr("data-original-content") + " " || $(".replyContent").val() === "") {
@@ -97,25 +97,25 @@ $(window).load(function(){
 			}
 		}
 	});
-	
+
 	$("body").on("tap", ".preventTweetAction", function(e){
 		e.stopPropagation();
 	});
 
-    $("body").on("tap", ".removeReply", function(){
+	$("body").on("tap", ".removeReply", function(){
 		var remove = confirm("Are you sure that you want to delete this reply?");
 		if (remove) {
 			replyRemoval($(this).parents(".tweetReply").attr("data-reply-id"), tweetID, $(this).parents(".tweetReply"));
 		}
 	});
-	
+
 	$("body").on("tap", ".clickToReply", function(){
 		$(".createReplyWrapper").show();
 		$(".clickToReply").hide();
 		$(".replyContent").focus().val($(".replyContent").attr("data-original-content")+" ");
 		creatingReply = true;
 	});
-	
+
 	$("body").on("input", ".replyContent", function(){
 		var replyChars = $(".replyChars");
 		var replyButton = $(".replyTweet");
@@ -165,7 +165,7 @@ $(window).load(function(){
 
 		$(replyChars).html(charsLeft);
 	});
-	
+
 	$("body").on("tap", ".replyTweet", function(){
 		if ($(this).hasClass("disabled") === false) {
 			if ($(".replyContent").val() !== "" && $(".replyContent").val().length <= 140) {
@@ -174,7 +174,7 @@ $(window).load(function(){
 			}
 		}
 	});
-	
+
 	$("body").on("tap", ".favouriteClick", function(){
 		var fav = $(this).parent();
 		if ($(fav).hasClass("favourited")) {

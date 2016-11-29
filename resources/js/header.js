@@ -1,11 +1,11 @@
 $(window).load(function(){
-	
+
 	userDropdownMenu = "hidden";
 	userDropdownAnimation = "done";
-	
+
 	userLoginDropdown = "hidden";
 	userLoginDropdownAnimation = "done";
-	
+
 	function showUserDropdown () {
 		$(".userDropdown").show();
 		userDropdownAnimation = "running";
@@ -18,7 +18,7 @@ $(window).load(function(){
 			}, 310);
 		}, 10);
 	}
-	
+
 	function hideUserDropdown () {
 		$(".userDropdown").addClass("hide");
 		userDropdownAnimation = "running";
@@ -28,7 +28,7 @@ $(window).load(function(){
 			userDropdownAnimation = "done";
 		}, 310);
 	}
-	
+
 	function showloginDropdown () {
 		$("#userLoginDropdownWrapper").show();
 		userLoginDropdownAnimation = "running";
@@ -48,7 +48,7 @@ $(window).load(function(){
 			}, 310);
 		}, 10);
 	}
-	
+
 	function hideloginDropdown () {
 		$("#userLoginDropdownWrapper").css({
 			'-webkit-transform': 'translate3d(0px,10px,0px)',
@@ -65,7 +65,7 @@ $(window).load(function(){
 			userLoginDropdownAnimation = "done";
 		}, 310);
 	}
-	
+
 	function userDropdown () {
 		if (userDropdownMenu == "hidden" && userDropdownAnimation == "done") {
 			showUserDropdown();
@@ -73,7 +73,7 @@ $(window).load(function(){
 			hideUserDropdown();
 		}
 	}
-	
+
 	function loginDropdown () {
 		if (userLoginDropdown == "hidden" && userLoginDropdownAnimation == "done") {
 			showloginDropdown();
@@ -81,7 +81,7 @@ $(window).load(function(){
 			hideloginDropdown();
 		}
 	}
-	
+
 	function showHeaderTweet () {
 		$("body").css("overflow", "hidden");
 		$("#createHeaderTweetContainer").show();
@@ -89,7 +89,7 @@ $(window).load(function(){
 			$("#createHeaderTweetContainer, #createHeaderTweetWrapper").removeClass("hide");
 		}, 10);
 	}
-	
+
 	function hideHeaderTweet () {
 		$("#createHeaderTweetContainer, #createHeaderTweetWrapper").addClass("hide");
 		setTimeout(function(){
@@ -97,7 +97,7 @@ $(window).load(function(){
 			$("body").css("overflow", "visible");
 		}, 400);
 	}
-	
+
 	function countTweetChars (input) {
 		charsLeft = 140 - input.length;
 		$(".headerTweetChars").html(charsLeft);
@@ -135,7 +135,7 @@ $(window).load(function(){
 			}
 		}
 	}
-	
+
 	function previewTweetImage (allFiles){
 		var fileList = allFiles.files;
 		var anyWindow = window.URL || window.webkitURL;
@@ -145,23 +145,23 @@ $(window).load(function(){
 			window.URL.revokeObjectURL(fileList[i]);
 		}
 	}
-	
+
 	$("body").on("tap", ".userHeadImageWrapper", function(){
 		userDropdown();
 	});
-	
+
 	$("body").on("tap", ".userLoginTextWrapper", function(){
 		loginDropdown();
 	});
-	
+
 	$("body").on("tap", ".userHead", function(e){
 		e.stopImmediatePropagation();
 	});
-	
+
 	$("body").on("tap", ".userLoginWrapper", function(e){
 		e.stopImmediatePropagation();
 	});
-	
+
 	$(document).on("tap", function(event){
 		if (userDropdownMenu == "showing" && userDropdownAnimation == "done") {
 			hideUserDropdown();
@@ -169,36 +169,36 @@ $(window).load(function(){
 			hideloginDropdown();
 		}
 	});
-	
+
 	$("body").on("tap", "#newTweet", function(){
 		showHeaderTweet();
 	});
-	
+
 	$("body").on("tap", ".closeHeaderTweet", function(){
 		hideHeaderTweet();
 	});
-	
+
 	$("body").on("input", "#createHeaderTweetContent", function(){
 		var input = $(this).val();
 		countTweetChars(input);
 	});
-	
+
 	$("body").on("tap", ".createHeaderTweetAddImage", function(){
 		$("#createHeaderTweetUpload").click();
 	});
-	
+
 	$("#createHeaderTweetUpload").on("change", function(){
 		previewTweetImage(this);
 		$(".createHeaderTweetAddImage span").html("Change image");
 	});
-	
+
 	$("body").on("tap", "#createHeaderTweet", function(){
 		var tweet = $("#createHeaderTweetContent").val();
 		if (tweet !== "" && tweet.length <= 140) {
 			$("#hiddenHeaderTweetButton").click();
 		}
 	});
-	
+
 	$("#headerTweetForm").submit(function(e){
 		$.ajax({
 			url: '/resources/sections/actions.php',

@@ -1,74 +1,77 @@
-<?php	
-	require_once("resources/functions/data.php");
-	$session = checkSession();
-	if ($session) {
-		header("Location: /");
+<?php
+
+require_once("resources/functions/data.php");
+
+$session = checkSession();
+if ($session) {
+	header("Location: /");
+	die();
+} else {
+	$url = $_SERVER['REQUEST_URI'];
+	$url = str_replace("/", "", $url);
+	if ($url !== "login") {
+		header("Location: /login");
 		die();
-	} else {
-		$url = $_SERVER['REQUEST_URI'];
-		$url = str_replace("/", "", $url);
-		if ($url !== "login") {
-			header("Location: /login");
-			die();
-		}
-		$page = "login";
-		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-			$postType = $_POST["postType"];
-			if ($postType === "login") {
-				$username = $_POST["username"];
-				$password = $_POST["password"];
-				if ($username !== "" || $password !== "") {
-					$user = validateUser($username, $password);
-					if ($user) {
-						createSession($user);
-						if (isset($_POST["origin"])) {
-							header("Location: " . $_POST["origin"]);
-							die();
-						} else {
-							redirectLogin();
-						}
+	}
+	$page = "login";
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$postType = $_POST["postType"];
+		if ($postType === "login") {
+			$username = $_POST["username"];
+			$password = $_POST["password"];
+			if ($username !== "" || $password !== "") {
+				$user = validateUser($username, $password);
+				if ($user) {
+					createSession($user);
+					if (isset($_POST["origin"])) {
+						header("Location: " . $_POST["origin"]);
+						die();
 					} else {
-						$error = $loginErrors[array_rand($loginErrors)];
+						redirectLogin();
 					}
 				} else {
-					$error = "Leaving things empty won't make things better you know.";
+					$error = $loginErrors[array_rand($loginErrors)];
 				}
-			} else if ($postType === "register") {
-				$validRegister = true;
-				$name = $_POST["regName"];
-				$username = $_POST["regUsername"];
-				$email = $_POST["regEmail"];
-				$password = $_POST["regPassword"];
-				$validName = validateName($name);
-				$validUsername = validateUsername($username);
-				$validEmail = validateEmail($email);
-				$validPassword = validateRegPassword($password);
-				if ($validName === "empty") {
-					$error = "You forgot to enter a name, silly.";
-					$validRegister = false;
-				} else if ($validUsername === "empty") {
-					$error = "You forgot to enter a username, silly.";
-					$validRegister = false;
-				} else if ($validUsername === "exists") {
-					$error = "The username already exists, choose a different one.";
-					$validRegister = false;
-				} else if ($validEmail === "empty") {
-					$error = "You forgot to enter an email address, silly.";
-					$validRegister = false;
-				} else if ($validEmail === "exists") {
-					$error = "Looks like the email is already registered to an account.";
-					$validRegister = false;
-				} else if ($validPassword === "empty") {
-					$error = "You forgot to enter a password, silly.";
-					$validRegister = false;
-				}
-				if ($validRegister) {
-					registerUser($name, $username, $email, $password);
-					$message = "You are now registered! Please login to confirm the registration.";
-				}
+			} else {
+				$error = "Leaving things empty won't make things better you know.";
+			}
+		} else if ($postType === "register") {
+			$validRegister = true;
+			$name = $_POST["regName"];
+			$username = $_POST["regUsername"];
+			$email = $_POST["regEmail"];
+			$password = $_POST["regPassword"];
+			$validName = validateName($name);
+			$validUsername = validateUsername($username);
+			$validEmail = validateEmail($email);
+			$validPassword = validateRegPassword($password);
+			if ($validName === "empty") {
+				$error = "You forgot to enter a name, silly.";
+				$validRegister = false;
+			} else if ($validUsername === "empty") {
+				$error = "You forgot to enter a username, silly.";
+				$validRegister = false;
+			} else if ($validUsername === "exists") {
+				$error = "The username already exists, choose a different one.";
+				$validRegister = false;
+			} else if ($validEmail === "empty") {
+				$error = "You forgot to enter an email address, silly.";
+				$validRegister = false;
+			} else if ($validEmail === "exists") {
+				$error = "Looks like the email is already registered to an account.";
+				$validRegister = false;
+			} else if ($validPassword === "empty") {
+				$error = "You forgot to enter a password, silly.";
+				$validRegister = false;
+			}
+			if ($validRegister) {
+				registerUser($name, $username, $email, $password);
+				$message = "You are now registered! Please login to confirm the registration.";
 			}
 		}
 	}
+}
+
 ?>
 <html>
 	<head>
@@ -77,27 +80,29 @@
 		<script src="/resources/js/login.js" type="text/javascript"></script>
 	</head>
 	<body>
+
 		<?php require("resources/sections/header.php");?>
+
 		<section id="loginPage">
 			<div id="loginPageBackground"></div>
 			<div class="loginOverlay"></div>
 			<article id="loginPageContent">
-				<?php if (isset($error)) {?>
+				<?php if (isset($error)): ?>
 					<div class="errorBox">
 						<?php print $error;?>
 						<div id="closeError" onclick="$(this).parent().remove();">
 							<i class="fa fa-times" id="closeErrorIcon"></i>
 						</div>
 					</div>
-				<?php }?>
-				<?php if (isset($message)) {?>
+				<?php endif; ?>
+				<?php if (isset($message)): ?>
 					<div class="messageBox">
 						<?php print $message;?>
 						<div id="closeMessage">
 							<i class="fa fa-times" id="closeMessageIcon"></i>
 						</div>
 					</div>
-				<?php }?>
+				<?php endif; ?>
 				<div class="loginGreetWrapper">
 					<h1>Welcome to Twitter!</h1>
 					<p>Connect with your friends — and other fascinating people. Get in-the-moment updates on the things that interest you. And watch events unfold, in real time, from every angle.</p>
@@ -138,6 +143,5 @@
 				</div>
 			</article>
 		</section>
-		
 	</body>
 </html>

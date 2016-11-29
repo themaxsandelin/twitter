@@ -1,5 +1,6 @@
 <?php
-	session_start();
-	session_destroy();
-	header("Location: /login");
-	die();
+
+session_start();
+session_destroy();
+header("Location: /login");
+die();

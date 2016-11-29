@@ -1,46 +1,48 @@
 <?php
-	require_once("resources/functions/data.php");
 
-	$url = getPageName();
-	if (preg_match("/^profile\.php\?username\=.*/", $url)) {
-		$username = explode("=", $url)[1];
-		header("Location: " . $username);
-		die();
-	}
+require_once("resources/functions/data.php");
 
-	$session = checkSession();
-	if (isset($_GET["username"])) {
-		$userExists = checkUsername($_GET["username"]);
-		if ($_GET["username"] == "") {
-			if ($session === false) {
-				header("Location: login.php");
-				die();
-			}
-			$user = getUserInfo($_SESSION["userID"]);
-			$profile = getUserInfo(getUserID($_GET["username"])[0]["user_id"]);
-			header("Location: " . $user["username"]);
-		} else {
-			if ($userExists) {
-				if ($session) {
-					$user = getUserInfo($_SESSION["userID"]);
-					$profile = getUserInfo(getUserID($_GET["username"])[0]["user_id"]);
-				} else {
-					$profile = getUserInfo(getUserID($_GET["username"])[0]["user_id"]);
-				}
-			} else {
-				print "This user doesn't exist.";
-			}
-		}
-	} else {
-		if ($session ===	false) {
+$url = getPageName();
+if (preg_match("/^profile\.php\?username\=.*/", $url)) {
+	$username = explode("=", $url)[1];
+	header("Location: " . $username);
+	die();
+}
+
+$session = checkSession();
+if (isset($_GET["username"])) {
+	$userExists = checkUsername($_GET["username"]);
+	if ($_GET["username"] == "") {
+		if ($session === false) {
 			header("Location: login.php");
 			die();
 		}
 		$user = getUserInfo($_SESSION["userID"]);
 		$profile = getUserInfo(getUserID($_GET["username"])[0]["user_id"]);
 		header("Location: " . $user["username"]);
+	} else {
+		if ($userExists) {
+			if ($session) {
+				$user = getUserInfo($_SESSION["userID"]);
+				$profile = getUserInfo(getUserID($_GET["username"])[0]["user_id"]);
+			} else {
+				$profile = getUserInfo(getUserID($_GET["username"])[0]["user_id"]);
+			}
+		} else {
+			print "This user doesn't exist.";
+		}
 	}
-	$page = "profile";
+} else {
+	if ($session ===	false) {
+		header("Location: login.php");
+		die();
+	}
+	$user = getUserInfo($_SESSION["userID"]);
+	$profile = getUserInfo(getUserID($_GET["username"])[0]["user_id"]);
+	header("Location: " . $user["username"]);
+}
+$page = "profile";
+
 ?>
 <html>
 	<head>
@@ -50,6 +52,7 @@
 	</head>
 	<body>
 		<?php require("resources/sections/header.php");?>
+
 		<div id="userFixedContent">
 			<div id="userCoverImageWrapper">
 				<div class="userCoverImage" style="background:url(/resources/img/<?php print getUserCover($profile["id"]);?>) no-repeat center center; background-size:cover;"></div>
@@ -72,22 +75,28 @@
 						</div>
 					</div>
 					<div class="moveRight">
-						<?php if (isset($user)) {
-							if ($user["username"] == $profile["username"]) {?>
+						<?php
+							if (isset($user)):
+							if ($user["username"] == $profile["username"]):
+						?>
 							<a href="/settings/account">
 								<div class="button greyButton">Settings</div>
 							</a>
-						<?php } else {?>
-							<?php if (checkFollowing($_SESSION["userID"], $profile["id"])) { ?>
+						<?php else: ?>
+							<?php if (checkFollowing($_SESSION["userID"], $profile["id"])): ?>
 								<div class="blueButton" id="unfollowUser"></div>
-							<?php } else { ?>
+							<?php else:?>
 								<div class="blueButton" id="followUser">Follow</div>
-							<?php }?>
-						<?php } }?>
+							<?php endif; ?>
+						<?php
+							endif;
+							endif;
+						?>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<section id="userPage">
 			<div id="fixedUserPageContent">
 				<div class="wrapper">
@@ -99,9 +108,11 @@
 							<h4 class="textMargin">
 								<a href="/<?php print $profile["username"]; ?>"><?php print "@".$profile["username"]; ?></a>
 							</h4>
+
 							<?php if ($profile["bio"] !== "") {?>
 								<p class="textMargin"><?php print $profile["bio"]; ?></p>
-							<?php }?>
+							<?php endif; ?>
+
 							<?php if ($profile["url"] !== "") {?>
 								<a href="<?php print $profile["url"]; ?>" target="_blank">
 									<div class="website">
@@ -109,17 +120,18 @@
 										<p><?php print printUserLink($profile["url"]);?></p>
 									</div>
 								</a>
-							<?php }?>
+							<?php endif; ?>
 						</div>
 					</article>
+
 					<article id="profileTweets" class="wide">
 						<div class="profielTweetsContainer">
 							<?php
 								$tweets = getTweetsFromUser($profile["id"]);
-								if ($tweets) {
-									$tweetNum = 1;
-									foreach ($tweets as $tweet) {
-										$tweetUser = $profile;
+								if ($tweets):
+								$tweetNum = 1;
+								foreach ($tweets as $tweet):
+									$tweetUser = $profile;
 							?>
 									<div class="tweetWrapper <?php if ($tweetNum === 1) { print "topUserTweet"; } ?>">
 										<a href="/<?php print $profile["username"]; ?>/status/<?php print $tweet["id"]; ?>">
@@ -138,17 +150,17 @@
 													<div class="tweetDate"><?php print "· ".calcElapsedTweet($tweet["published"]);?></div>
 													<div class="tweetText"><?php print nl2br(formatTweetContent($tweet["content"]));?></div>
 													<div class="regularView">
-														<?php if ($image = getTweetImage($tweetUser["id"], $tweet["tweet_id"])) {?>
+														<?php if ($image = getTweetImage($tweetUser["id"], $tweet["tweet_id"])): ?>
 															<div class="tweetViewImage" style="background:url(resources/img/users/<?php print $image; ?>) no-repeat center center; background-size:cover;"></div>
-														<?php }?>
+														<?php endif; ?>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								<?php $tweetNum++; }?>
+									<?php $tweetNum++; endforeach;?>
 								<div class="bottomTweetMessageWrapper">That's all folks!</div>
-							<?php }?>
+							<?php endif; ?>
 						</div>
 					</article>
 				</div>

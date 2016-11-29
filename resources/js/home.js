@@ -109,19 +109,19 @@ $(window).load(function(){
 				reply = reply.replace(/\B#([\w-]+)/gm, '<a href="/search/?s=$1">#$1</a>');
 				$("#"+activeTweet).find(".tweetReplyWrapper").prepend(
 					'<div class="tweetReply">'+
-						'<a href="/'+username+'">'+
-							'<div class="replyUserImage" style="background:url(resources/img/users/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
-						'</a>'+
-						'<div class="replyContentWrapper">'+
-							'<a href="/'+username+'" class="tweetAuthorHover">'+
-								'<div class="tweetAuthor">'+userName+'</div>'+
-								'<div class="authorUsername">&nbsp;@'+username+'</div>'+
-							'</a>'+
-							'<a href="/'+username+'">'+
-								'<div class="tweetDate"> 0 Sec</div>'+
-							'</a>'+
-							'<div class="tweetText">'+reply+'</div>'+
-						'</div>'+
+					'<a href="/'+username+'">'+
+					'<div class="replyUserImage" style="background:url(resources/img/users/'+userProfileImage+') no-repeat center center; background-size:cover;"></div>'+
+					'</a>'+
+					'<div class="replyContentWrapper">'+
+					'<a href="/'+username+'" class="tweetAuthorHover">'+
+					'<div class="tweetAuthor">'+userName+'</div>'+
+					'<div class="authorUsername">&nbsp;@'+username+'</div>'+
+					'</a>'+
+					'<a href="/'+username+'">'+
+					'<div class="tweetDate"> 0 Sec</div>'+
+					'</a>'+
+					'<div class="tweetText">'+reply+'</div>'+
+					'</div>'+
 					'</div>'
 				);
 			}
