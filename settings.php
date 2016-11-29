@@ -285,7 +285,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								<div id="saveAccountSettings" class="blueButton">Save changes</div>
 							</div>
 
-						<?php else if ($_GET["setting"] == "images"): ?>
+						<?php elseif ($_GET["setting"] == "images"): ?>
 
 							<form action="/settings/images" method="post" id="imagesForm" enctype="multipart/form-data">
 								<input type="text" hidden name="settingType" value="images">
@@ -329,7 +329,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								<div id="saveImagesSettings" class="blueButton">Save changes</div>
 							</div>
 
-						<?php else if ($_GET["setting"] == "password"):?>
+						<?php elseif ($_GET["setting"] == "password"):?>
 
 							<form action="/settings/password" method="post" id="passwordForm">
 								<div class="settingsContentWrapper">
