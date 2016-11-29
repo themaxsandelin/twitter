@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteRule ^logout logout.php [NC,L]
+RewriteRule ^admin admin.php [NC,L]
+RewriteRule ^login login.php [NC,L]
+RewriteRule ^search search.php [NC,L]
+RewriteRule ^status status.php [NC,L]
+RewriteRule ^([A-Za-z0-9-]+)/?$ profile.php?username=$1 [NC,L]
+RewriteRule ^settings/([A-Za-z0-9-]+)/?$ settings.php?setting=$1 [NC,L]
+RewriteRule ^([A-Za-z0-9-]+)/?/status/([A-Za-z0-9-]+)/?$ status.php?username=$1&id=$2 [NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
