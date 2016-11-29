@@ -670,12 +670,20 @@ function registerUser ($name, $username, $email, $password) {
 	$password = $passwordInfo["password"];
 	$key = $passwordInfo["key"];
 	$joined = date("Y-m-d H:i:s");
+
+	if (!file_exists("./resources/img/users")) {
+		mkdir("./resources/img/users");
+	}
+
 	$path = "./resources/img/users/".$userID."/";
 	mkdir($path);
+
 	$path = "./resources/img/users/".$userID."/tweets/";
 	mkdir($path);
+
 	$array = [$userID, $username, $email, $password, $key];
 	updateDBContent("INSERT INTO user_login (user_id, username, email, password, hash_key) VALUES (?, ?, ?, ?, ?)", $array);
+
 	$array = [$userID, $name, $joined];
 	updateDBContent("INSERT INTO user_info (user_id, name, joined) VALUES (?, ?, ?)", $array);
 }
