@@ -235,13 +235,13 @@ function getUserCover ($id) {
 }
 
 function removeCoverImage ($id) {
-	if ($image = getUserCover($id) !== "default/c.jpg") {
+	if ($image = getUserCover($id) !== "content/cover.jpg") {
 		unlink("resources/img/users/".$image);
 	}
 }
 
 function removeProfileImage ($id) {
-	if ($image = getUserImage($id) !== "default/p.jpg") {
+	if ($image = getUserImage($id) !== "content/avatar.jpg") {
 		unlink("resources/img/users/".$image);
 	}
 }

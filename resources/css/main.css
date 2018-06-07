@@ -1846,7 +1846,7 @@ User page CSS
 #userFixedContent {
 	width:100%;
 	position:fixed;
-	top:60px;
+	top:46px;
 	left:0;
 	z-index:2;
 }

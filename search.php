@@ -163,7 +163,7 @@ if ($session) {
 								<div class="tweetPaddingContainer">
 									<a href="/<?php print $tweetUser["username"];?>" class="tweetAuthorHoverOutside">
 										<div class="tweetUserImageWrapper">
-											<div class="userImage" style="background:url(/resources/img/users/<?php print getUserImage($tweetUser["id"]); ?>) no-repeat center center; background-size:cover;"></div>
+											<div class="userImage" style="background:url(/resources/img/<?php print getUserImage($tweetUser["id"]); ?>) no-repeat center center; background-size:cover;"></div>
 										</div>
 									</a>
 									<div class="tweetContentWrapper">
