@@ -109,11 +109,11 @@ $page = "profile";
 								<a href="/<?php print $profile["username"]; ?>"><?php print "@".$profile["username"]; ?></a>
 							</h4>
 
-							<?php if ($profile["bio"] !== ""): ?>
+							<?php if ($profile["bio"]): ?>
 								<p class="textMargin"><?php print $profile["bio"]; ?></p>
 							<?php endif; ?>
 
-							<?php if ($profile["url"] !== ""): ?>
+							<?php if ($profile["url"]): ?>
 								<a href="<?php print $profile["url"]; ?>" target="_blank">
 									<div class="website">
 										<i class="fa fa-link linkIcon"></i>

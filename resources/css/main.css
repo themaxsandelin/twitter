@@ -439,11 +439,10 @@ header .wrapper {
 }
 
 #homeIcon {
-	float:left;
-	font-size:24px;
+	font-size:20px;
 	line-height:60px;
 	margin-right:5px;
-	margin-left:-5px;
+  margin-left:-5px;
 }
 
 #userIcon {
@@ -2041,10 +2040,11 @@ Settings article CSS
 	color:#292f33;
 }
 
-#settingsCategories li i {
+#settingsCategories li svg {
 	float:right;
 	line-height:38px;
-	font-weight:400;
+  font-weight:400;
+  margin-top: 12px;
 }
 
 #settingsCategories li:not(.last) {

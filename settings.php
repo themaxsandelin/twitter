@@ -178,21 +178,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							<?php if ($_GET["setting"] !== "account") { print '<a href="account">'; }?>
 								<li <?php if ($_GET["setting"] == "account") { print 'class="selected"'; } ?>>
 									Account
-									<i class="fa fa-arrow-right"></i>
+									<i class="fas fa-arrow-right"></i>
 								</li>
 							<?php if ($_GET["setting"] !== "account") { print '</a>'; }?>
 
 							<?php if ($_GET["setting"] !== "images") { print '<a href="images">'; }?>
 								<li <?php if ($_GET["setting"] == "images") { print 'class="selected"'; } ?>>
 									Images
-									<i class="fa fa-arrow-right"></i>
+									<i class="fas fa-arrow-right"></i>
 								</li>
 							<?php if ($_GET["setting"] !== "images") { print '</a>'; }?>
 
 							<?php if ($_GET["setting"] !== "password") { print '<a href="password">'; }?>
 								<li class="last <?php if ($_GET["setting"] == "password") { print "selected"; } ?>">
 									Password
-									<i class="fa fa-arrow-right"></i>
+									<i class="fas fa-arrow-right"></i>
 								</li>
 							<?php if ($_GET["setting"] !== "password") { print '</a>'; }?>
 						</ul>

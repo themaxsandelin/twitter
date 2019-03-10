@@ -165,17 +165,16 @@ function createRegularTweet ($tweet, $userID) {
 		}
 	}
 	$authorID = $userID;
-	$published = date("Y-m-d H:i:s");
 	$tweetCount = getUserInfo($_SESSION["userID"])["tweets"] + 1;
-	$array = [$tweetID, $content, $authorID, $published];
-	updateDBContent("INSERT INTO tweets (tweet_id, content, author_id, published) VALUES (?, ?, ?, ?)", $array);
+	$array = [$tweetID, $content, $authorID];
+	updateDBContent("INSERT INTO tweets (tweet_id, content, author_id) VALUES (?, ?, ?)", $array);
 	$array = [$tweetCount, $userID];
 	updateDBContent("UPDATE user_info SET tweets = ? WHERE user_id = ?", $array);
 	return $tweetID;
 }
 
 function getTweetsFromUser ($userID) {
-	return getDBContent("SELECT * FROM tweets WHERE author_id = '$userID' AND reply_id = '' ORDER BY published DESC");
+	return getDBContent("SELECT * FROM tweets WHERE author_id = '$userID' AND reply_id IS NULL ORDER BY published DESC");
 }
 
 function getUserID ($username) {
@@ -430,13 +429,13 @@ function getHomeTweets ($id) {
 	if ($following) {
 		foreach ($following as $follow) {
 			$followID = $follow["follow_id"];
-			$tweets = getDBContent("SELECT * FROM tweets WHERE author_id = '$followID' AND reply_id = '' ORDER BY published DESC");
+			$tweets = getDBContent("SELECT * FROM tweets WHERE author_id = '$followID' AND reply_id IS NULL ORDER BY published DESC");
 			foreach ($tweets as $tweet) {
 				$tweetList[] = $tweet;
 			}
 		}
-	}
-	$userTweets = getDBContent("SELECT * FROM tweets WHERE author_id = '$id' AND reply_id = '' ORDER BY published DESC");
+  }
+  $userTweets = getDBContent("SELECT * FROM tweets WHERE author_id = '$id' AND reply_id IS NULL ORDER BY published DESC");
 	if ($userTweets) {
 		foreach ($userTweets as $tweet) {
 			$tweetList[] = $tweet;
@@ -602,7 +601,7 @@ function searchUser ($username) {
 }
 
 function searchTweets ($content) {
-	return getDBContent("SELECT * FROM tweets WHERE reply_id = '' AND content LIKE '%{$content}%' ORDER BY published DESC");
+	return getDBContent("SELECT * FROM tweets WHERE reply_id IS NULL AND content LIKE '%{$content}%' ORDER BY published DESC");
 }
 
 function getTweet ($tweetID) {
@@ -663,13 +662,9 @@ function validateName ($name) {
 
 function registerUser ($name, $username, $email, $password) {
 	$userID = generateID();
-	$name = $name;
-	$username = $username;
-	$email = $email;
 	$passwordInfo = passwordEncrypt($password);
 	$password = $passwordInfo["password"];
 	$key = $passwordInfo["key"];
-	$joined = date("Y-m-d H:i:s");
 
 	if (!file_exists("./resources/img/users")) {
 		mkdir("./resources/img/users");
@@ -681,11 +676,8 @@ function registerUser ($name, $username, $email, $password) {
 	$path = "./resources/img/users/".$userID."/tweets/";
 	mkdir($path);
 
-	$array = [$userID, $username, $email, $password, $key];
-	updateDBContent("INSERT INTO user_login (user_id, username, email, password, hash_key) VALUES (?, ?, ?, ?, ?)", $array);
-
-	$array = [$userID, $name, $joined];
-	updateDBContent("INSERT INTO user_info (user_id, name, joined) VALUES (?, ?, ?)", $array);
+	updateDBContent("INSERT INTO user_login (user_id, username, email, password, hash_key) VALUES (?, ?, ?, ?, ?)", [ $userID, $username, $email, $password, $key ]);
+	updateDBContent("INSERT INTO user_info (user_id, name) VALUES (?, ?)", [ $userID, $name ]);
 }
 
 function searchUsersName ($search) {

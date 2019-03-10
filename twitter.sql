@@ -85,7 +85,7 @@ CREATE TABLE `tweets` (
   `reply_id` varchar(255) NOT NULL,
   `replies` bigint(20) NOT NULL DEFAULT '0',
   `favourites` int(11) NOT NULL DEFAULT '0',
-  `published` datetime NOT NULL
+  `published` datetime NOT NULL DEFAULT NOW()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -98,12 +98,12 @@ CREATE TABLE `user_info` (
   `id` int(11) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `bio` varchar(255) NOT NULL,
-  `website_url` varchar(255) NOT NULL,
+  `bio` varchar(255),
+  `website_url` varchar(255),
   `followers` int(11) NOT NULL DEFAULT '0',
   `following` int(11) NOT NULL DEFAULT '0',
   `tweets` int(11) NOT NULL DEFAULT '0',
-  `joined` date NOT NULL,
+  `joined` datetime NOT NULL DEFAULT NOW(),
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `blocked` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

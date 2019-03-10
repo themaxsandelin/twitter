@@ -145,7 +145,7 @@
 													<div class="viewFullTweet">
 														<a href="/<?php print $tweetUser["username"] . "/status/" . $tweet["id"]; ?>">
 															View more in conversation
-															<i class="fa fa-long-arrow-right"></i>
+															<i class="fas fa-long-arrow-right"></i>
 														</a>
 													</div>
 													<?php }?>
