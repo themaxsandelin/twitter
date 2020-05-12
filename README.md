@@ -1,6 +1,8 @@
 # Twitter clone
 This is a Twitter clone I built in PHP during my studies at YRGO university.
 
+Disclosure: This is just a school project, not an actual app or something to be used instead of Twitter. Things might not work or be wonky since this project isn't really maintained.
+
 ## Geting started
 
 ### Prerequisites
